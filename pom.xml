@@ -6,7 +6,7 @@
 
     <groupId>co.ryred</groupId>
     <artifactId>BEss-Commons</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <properties>
         <env.BUILD_NUMBER>LOCAL_BUILD</env.BUILD_NUMBER>
