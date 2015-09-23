@@ -45,7 +45,7 @@ import lombok.Getter;
 public enum PluginMessagingChannels
 {
 
-	WORLD_RELAY_CHANNEL( "BESS_WORLD_RELAY" );
+	MASTER_CHANNEL( "BESS" );
 
 	@Getter
 	private final String channel;
