@@ -34,36 +34,40 @@
  *
  */
 
-package co.ryred.bess;
+package co.ryred.bess.util;
 
-import lombok.Getter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Cory Redmond
- *         Created by acech_000 on 29/08/2015.
+ *         Created by acech_000 on 24/03/2015.
  */
-public enum PluginMessagingChannels
+public class CooldownUtil<O>
 {
 
-	MASTER_CHANNEL( "BESS" );
+	private HashMap<O, Long> cooldownMap = new HashMap<O, Long>();
 
-	@Getter
-	private final String channel;
-
-	PluginMessagingChannels( String channel )
+	public boolean isCooldown( O obj )
 	{
-		this.channel = channel;
+		return cooldownMap.containsKey( obj ) && ( cooldownMap.get( obj ) - System.currentTimeMillis() ) > 0;
 	}
 
-	public static PluginMessagingChannels getFromString( String channelString )
+	public void cooldown( O obj )
 	{
+		long cooldowntime = 5000;
+		cooldownMap.put( obj, System.currentTimeMillis() + cooldowntime );
+	}
 
-		for ( PluginMessagingChannels channel : PluginMessagingChannels.values() ) {
-			if ( channel.getChannel().equalsIgnoreCase( channelString ) ) return channel;
-		}
+	public void clear()
+	{
+		cooldownMap = new HashMap<O, Long>();
+	}
 
-		return null;
-
+	public synchronized void prune()
+	{
+		for ( Map.Entry<O, Long> entry : cooldownMap.entrySet() )
+			if ( !isCooldown( entry.getKey() ) ) cooldownMap.remove( entry.getKey() );
 	}
 
 }
